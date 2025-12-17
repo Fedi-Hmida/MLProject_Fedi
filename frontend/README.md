@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Breast Cancer Detection – Frontend (Next.js)
 
-## Getting Started
+This repository contains the **frontend application** for the **Breast Cancer Detection & Risk Stratification System**, a machine learning–based clinical decision support tool.
 
-First, run the development server:
+The frontend is built with **Next.js (App Router)** and **Tailwind CSS**, and communicates with a **FastAPI backend** to provide real-time predictions and clinical risk analysis.
 
-```bash
+---
+
+## 🎯 Project Objectives
+
+The frontend aims to:
+
+- Provide a **clean, medical-grade user interface**
+- Allow users to **enter tumor measurements**
+- Display **machine learning predictions** clearly
+- Visualize **risk levels and probabilities**
+- Ensure **good UX and accessibility**
+
+---
+
+## 🧩 Features
+
+### 🏠 Landing Page
+- Project presentation and context
+- Navigation to prediction and risk modules
+
+### 🧪 Breast Cancer Prediction
+- Dynamic clinical input form (30 WDBC features)
+- Auto-fill with sample patient data
+- Prediction: Benign / Malignant
+- Probability bars and confidence score
+
+### 📊 Risk Stratification
+- Risk category (Low / Medium / High)
+- Risk score visualization
+- Clinical recommendations
+- Model metadata and thresholds
+
+### 🎨 UI / UX
+- Medical dashboard–style design
+- Tab-based navigation for features
+- Responsive layout
+- Consistent visual hierarchy
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 13+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **API Communication:** REST (Fetch API)
+- **Backend:** FastAPI (Python)
+
+---
+
+## 📂 Project Structure
+
+frontend/
+├── app/
+│   ├── page.tsx              # Landing page
+│   ├── prediction/page.tsx   # Prediction page
+│   ├── risk/page.tsx         # Risk stratification page
+│   └── layout.tsx            # Global layout
+│
+├── components/
+│   ├── FeatureForm.tsx
+│   ├── Card.tsx
+│   └── Navbar.tsx
+│
+├── constants/
+│   ├── features.ts
+│   └── sampleData.ts
+│
+├── services/
+│   └── breastCancerApi.ts
+│
+├── public/images/
+│   └── hero-medical.jpg
+│
+├── styles/globals.css
+└── README.md
+
+---
+
+## 🔌 Backend Integration
+
+Create a `.env.local` file:
+
+NEXT_PUBLIC_API_URL=http://localhost:8000
+
+Used endpoints:
+- POST /api/v1/predict
+- POST /api/v1/risk-stratify
+- GET  /api/v1/health
+
+---
+
+## 🚀 Getting Started
+
+Install dependencies:
+npm install
+
+Run development server:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open browser:
+http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎓 Academic Context
 
-## Learn More
+This project was developed for **educational purposes** in the context of:
+- Machine Learning
+- Clinical Decision Support Systems
+- Frontend UX/UI Design
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⚠️ Disclaimer
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This application is for **educational and research purposes only**.
+It is **not intended for real medical diagnosis**.
