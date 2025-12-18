@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FeatureForm from "@/components/FeatureForm";
 import Card from "@/components/Card";
+import ExplanationChart from "@/components/ExplanationChart";
 import {
   predictCancer,
   PredictionResponse,
@@ -130,6 +131,11 @@ export default function PredictionPage() {
             <p>Model version: {result.model_version}</p>
             <p>{new Date(result.timestamp).toLocaleString()}</p>
           </div>
+
+          {/* Explanations */}
+          {result.explanations && result.explanations.length > 0 && (
+            <ExplanationChart explanations={result.explanations} />
+          )}
         </Card>
       )}
     </main>

@@ -74,21 +74,19 @@ async def predict(features: FeatureInput, request: Request):
         
         # Convert features to numpy array
         feature_array = np.array([features.to_list()])
-        
-        # Get prediction
-        prediction, confidence = ml_service.predict(feature_array)
-        probabilities = ml_service.predict_proba(feature_array)
-        
-        diagnosis = "Malignant" if prediction == 1 else "Benign"
-        
-        logger.info(f"Prediction made: {diagnosis} (confidence: {confidence:.4f})")
-        
+
+        # Get comprehensive prediction details (includes explanations)
+        details = ml_service.get_prediction_details(feature_array)
+
+        logger.info(f"Prediction made: {details['diagnosis']} (confidence: {details['confidence']:.4f})")
+
         return PredictionResponse(
-            diagnosis=diagnosis,
-            confidence=confidence,
-            probability_malignant=float(probabilities[1]),
-            probability_benign=float(probabilities[0]),
-            model_version=ml_service.model_metadata.get("model_name", "Logistic Regression v1.0")
+            diagnosis=details['diagnosis'],
+            confidence=details['confidence'],
+            probability_malignant=details['probability_malignant'],
+            probability_benign=details['probability_benign'],
+            model_version=details['model_version'],
+            explanations=details.get('explanations', [])
         )
         
     except ValueError as e:
@@ -129,8 +127,8 @@ async def risk_stratify(features: FeatureInput, request: Request):
         
         # Convert features to numpy array
         feature_array = np.array([features.to_list()])
-        
-        # Get comprehensive prediction details
+
+        # Get comprehensive prediction details (includes explanations)
         details = ml_service.get_prediction_details(feature_array)
         
         logger.info(
@@ -146,6 +144,7 @@ async def risk_stratify(features: FeatureInput, request: Request):
             recommendation=RiskRecommendation(**details['recommendation']),
             thresholds=details['thresholds'],
             model_version=details['model_version']
+            ,explanations=details.get('explanations', [])
         )
         
     except ValueError as e:

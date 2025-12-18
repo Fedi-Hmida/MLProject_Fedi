@@ -10,6 +10,7 @@ pydantic-settings
 # Machine Learning
 scikit-learn
 numpy
+shap
 
 # Utilities
 python-multipart

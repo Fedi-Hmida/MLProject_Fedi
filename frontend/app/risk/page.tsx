@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FeatureForm from "@/components/FeatureForm";
 import Card from "@/components/Card";
+import ExplanationChart from "@/components/ExplanationChart";
 import {
   riskStratify,
   RiskStratificationResponse,
@@ -160,6 +161,14 @@ export default function RiskPage() {
             <p>Model version: {result.model_version}</p>
             <p>{new Date(result.timestamp).toLocaleString()}</p>
           </div>
+
+          {/* ================= EXPLANATIONS ================= */}
+          {result.explanations && result.explanations.length > 0 && (
+            <ExplanationChart
+              explanations={result.explanations}
+              title="🔍 Feature Contributions to Risk Assessment (XAI)"
+            />
+          )}
         </Card>
       )}
     </main>

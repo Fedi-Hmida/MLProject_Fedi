@@ -49,6 +49,13 @@ export interface HealthResponse {
   timestamp: string;
 }
 
+export interface ExplanationItem {
+  feature: string;
+  contribution: number;
+  abs_contribution: number;
+  direction: "increases risk" | "decreases risk" | "no effect";
+}
+
 export interface PredictionResponse {
   diagnosis: "Benign" | "Malignant";
   confidence: number;
@@ -56,6 +63,7 @@ export interface PredictionResponse {
   probability_benign: number;
   model_version: string;
   timestamp: string;
+  explanations?: ExplanationItem[];
 }
 
 export interface RiskStratificationResponse {
@@ -75,6 +83,7 @@ export interface RiskStratificationResponse {
   };
   model_version: string;
   timestamp: string;
+  explanations?: ExplanationItem[];
 }
 
 /* =========================================================
