@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 export interface FeaturesInput {
   // Mean values
@@ -61,6 +61,10 @@ export interface PredictionResponse {
   confidence: number;
   probability_malignant: number;
   probability_benign: number;
+  // Risk stratification fields
+  risk_category: "Low Risk" | "Medium Risk" | "High Risk";
+  risk_score: number;
+  clinical_action: string;
   model_version: string;
   timestamp: string;
   explanations?: ExplanationItem[];

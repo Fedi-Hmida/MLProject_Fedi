@@ -81,12 +81,16 @@ class FeatureInput(BaseModel):
 
 
 class PredictionResponse(BaseModel):
-    """Response schema for binary prediction."""
+    """Response schema for binary prediction with integrated risk stratification."""
     
     diagnosis: str = Field(..., description="Predicted diagnosis: Benign or Malignant")
     confidence: float = Field(..., ge=0, le=1, description="Prediction confidence (0-1)")
     probability_malignant: float = Field(..., ge=0, le=1, description="Probability of malignancy")
     probability_benign: float = Field(..., ge=0, le=1, description="Probability of benign")
+    # Risk stratification fields
+    risk_category: str = Field(..., description="Risk level: Low Risk, Medium Risk, or High Risk")
+    risk_score: float = Field(..., ge=0, le=1, description="Risk score (same as probability_malignant)")
+    clinical_action: str = Field(..., description="Recommended clinical action based on risk level")
     model_version: str = Field(..., description="Model version used for prediction")
     timestamp: datetime = Field(default_factory=datetime.now, description="Prediction timestamp")
     explanations: Optional[List[dict]] = Field(None, description="Optional explanation items describing feature contributions")

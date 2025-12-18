@@ -58,10 +58,15 @@ async def get_model_info(request: Request):
 @router.post("/predict", response_model=PredictionResponse, tags=["Prediction"])
 async def predict(features: FeatureInput, request: Request):
     """
-    Make binary classification prediction (Benign/Malignant).
+    Make binary classification prediction (Benign/Malignant) with integrated risk stratification.
     
     - **features**: All 30 breast cancer features
-    - Returns diagnosis, confidence, and probabilities
+    - Returns diagnosis, confidence, probabilities, and risk stratification
+    
+    Risk Categories:
+    - **Low Risk** (< 20%): Routine surveillance recommended
+    - **Medium Risk** (20-70%): Additional diagnostic testing recommended  
+    - **High Risk** (> 70%): Immediate clinical attention required
     """
     try:
         ml_service = request.app.state.ml_service
@@ -77,14 +82,35 @@ async def predict(features: FeatureInput, request: Request):
 
         # Get comprehensive prediction details (includes explanations)
         details = ml_service.get_prediction_details(feature_array)
+        
+        # Calculate risk stratification
+        risk_score = details['probability_malignant']
+        
+        # Define thresholds (matching DSO 2)
+        LOW_THRESHOLD = 0.20
+        HIGH_THRESHOLD = 0.70
+        
+        # Determine risk category and clinical action
+        if risk_score < LOW_THRESHOLD:
+            risk_category = "Low Risk"
+            clinical_action = "Routine surveillance recommended. Continue annual screening mammography."
+        elif risk_score <= HIGH_THRESHOLD:
+            risk_category = "Medium Risk"
+            clinical_action = "Additional diagnostic testing recommended. Consider ultrasound, MRI, or biopsy for confirmation."
+        else:
+            risk_category = "High Risk"
+            clinical_action = "Immediate clinical attention required. Urgent referral to oncology specialist recommended."
 
-        logger.info(f"Prediction made: {details['diagnosis']} (confidence: {details['confidence']:.4f})")
+        logger.info(f"Prediction made: {details['diagnosis']} (confidence: {details['confidence']:.4f}, risk: {risk_category})")
 
         return PredictionResponse(
             diagnosis=details['diagnosis'],
             confidence=details['confidence'],
             probability_malignant=details['probability_malignant'],
             probability_benign=details['probability_benign'],
+            risk_category=risk_category,
+            risk_score=risk_score,
+            clinical_action=clinical_action,
             model_version=details['model_version'],
             explanations=details.get('explanations', [])
         )
