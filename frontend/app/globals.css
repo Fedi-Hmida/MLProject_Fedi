@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   MEDICAL DASHBOARD THEME
+   ========================================================= */
+:root {
+  --bg-main: #f1f5f9;          /* slate-100 */
+  --bg-card: #ffffff;
+  --bg-muted: #e2e8f0;         /* slate-200 */
+
+  --text-main: #0f172a;        /* slate-900 */
+  --text-muted: #475569;       /* slate-600 */
+
+  --primary: #2563eb;          /* blue-600 */
+  --primary-soft: #dbeafe;     /* blue-100 */
+
+  --accent: #14b8a6;           /* teal-500 */
+  --danger: #dc2626;           /* red-600 */
+
+  --border: #e2e8f0;
+}
+
+/* =========================================================
+   BASE LAYOUT
+   ========================================================= */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
+input {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+/* =========================================================
+   BUTTON BASE
+   ========================================================= */
+button {
+  transition: all 0.2s ease;
+}
+
+/* =========================================================
+   SCROLLBAR (SUBTLE)
+   ========================================================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.9s ease-out both;
+}

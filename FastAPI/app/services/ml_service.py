@@ -81,6 +81,16 @@ class MLService:
             
             # Validate model
             self._validate_model()
+            # If model is linear (e.g., logistic regression) capture coefficients for simple explanations
+            try:
+                if hasattr(self.model, 'coef_'):
+                    # store coefficient vector for binary classification
+                    self.coef_ = np.array(self.model.coef_).flatten()
+                    logger.info(f"✅ Captured model coefficients (n={len(self.coef_)}) for explanations")
+                else:
+                    self.coef_ = None
+            except Exception:
+                self.coef_ = None
             
         except Exception as e:
             logger.error(f"❌ Failed to load models: {str(e)}")
@@ -218,7 +228,56 @@ class MLService:
                 "high": settings.HIGH_RISK_THRESHOLD
             },
             "model_version": self.model_metadata.get("model_name", "Logistic Regression v1.0")
+            ,"explanations": self.explain(features)
         }
+
+    def explain(self, features: np.ndarray, top_k: int = 8) -> list:
+        """
+        Provide a simple, transparent explanation of feature contributions.
+
+        For linear models (e.g., logistic regression) this uses the model coefficients
+        multiplied by the (preprocessed) feature values. Returns the top_k features
+        ranked by absolute contribution.
+
+        Args:
+            features: Input features as numpy array (1, n_features)
+            top_k: Number of top contributing features to return
+
+        Returns:
+            List of dicts: [{"feature": name, "contribution": float, "abs_contribution": float, "direction": "increases|decreases risk"}]
+        """
+        try:
+            # Preprocess first so contributions match model input space
+            features_processed = self.preprocess_features(features)
+
+            if self.coef_ is None:
+                return []
+
+            # Ensure lengths align
+            vals = np.array(features_processed).flatten()
+            if vals.shape[0] != self.coef_.shape[0]:
+                # mismatch; do not attempt explanation
+                return []
+
+            contributions = self.coef_ * vals
+
+            items = []
+            names = self.feature_names or [f"f{i}" for i in range(len(contributions))]
+
+            for n, c in zip(names, contributions):
+                items.append({
+                    "feature": n,
+                    "contribution": float(c),
+                    "abs_contribution": float(abs(c)),
+                    "direction": "increases risk" if c > 0 else "decreases risk" if c < 0 else "no effect"
+                })
+
+            # Sort by absolute contribution descending and return top_k
+            items_sorted = sorted(items, key=lambda x: x["abs_contribution"], reverse=True)
+            return items_sorted[:top_k]
+        except Exception as e:
+            logger.warning(f"Explanation generation failed: {e}")
+            return []
     
     def is_loaded(self) -> bool:
         """Check if model is loaded and ready."""

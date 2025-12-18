@@ -89,6 +89,7 @@ class PredictionResponse(BaseModel):
     probability_benign: float = Field(..., ge=0, le=1, description="Probability of benign")
     model_version: str = Field(..., description="Model version used for prediction")
     timestamp: datetime = Field(default_factory=datetime.now, description="Prediction timestamp")
+    explanations: Optional[List[dict]] = Field(None, description="Optional explanation items describing feature contributions")
 
 
 class RiskRecommendation(BaseModel):
@@ -111,6 +112,7 @@ class RiskStratificationResponse(BaseModel):
     thresholds: dict = Field(..., description="Threshold values used for stratification")
     model_version: str = Field(..., description="Model version used")
     timestamp: datetime = Field(default_factory=datetime.now, description="Prediction timestamp")
+    explanations: Optional[List[dict]] = Field(None, description="Optional explanation items describing feature contributions")
 
 
 class HealthResponse(BaseModel):

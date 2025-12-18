@@ -1,0 +1,47 @@
+export const FEATURES = [
+  {
+    group: "Mean Values",
+    items: [
+      { key: "radius_mean", label: "Radius" },
+      { key: "texture_mean", label: "Texture" },
+      { key: "perimeter_mean", label: "Perimeter" },
+      { key: "area_mean", label: "Area" },
+      { key: "smoothness_mean", label: "Smoothness" },
+      { key: "compactness_mean", label: "Compactness" },
+      { key: "concavity_mean", label: "Concavity" },
+      { key: "concave_points_mean", label: "Concave Points" },
+      { key: "symmetry_mean", label: "Symmetry" },
+      { key: "fractal_dimension_mean", label: "Fractal Dimension" },
+    ],
+  },
+  {
+    group: "Standard Error",
+    items: [
+      { key: "radius_se", label: "Radius" },
+      { key: "texture_se", label: "Texture" },
+      { key: "perimeter_se", label: "Perimeter" },
+      { key: "area_se", label: "Area" },
+      { key: "smoothness_se", label: "Smoothness" },
+      { key: "compactness_se", label: "Compactness" },
+      { key: "concavity_se", label: "Concavity" },
+      { key: "concave_points_se", label: "Concave Points" },
+      { key: "symmetry_se", label: "Symmetry" },
+      { key: "fractal_dimension_se", label: "Fractal Dimension" },
+    ],
+  },
+  {
+    group: "Worst Values",
+    items: [
+      { key: "radius_worst", label: "Radius" },
+      { key: "texture_worst", label: "Texture" },
+      { key: "perimeter_worst", label: "Perimeter" },
+      { key: "area_worst", label: "Area" },
+      { key: "smoothness_worst", label: "Smoothness" },
+      { key: "compactness_worst", label: "Compactness" },
+      { key: "concavity_worst", label: "Concavity" },
+      { key: "concave_points_worst", label: "Concave Points" },
+      { key: "symmetry_worst", label: "Symmetry" },
+      { key: "fractal_dimension_worst", label: "Fractal Dimension" },
+    ],
+  },
+];
